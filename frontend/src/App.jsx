@@ -1,51 +1,50 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { useAuthStore } from './contexts/AuthContext';
-import { useToast, ToastContainer } from './components/common/Toast';
-import { Navbar } from './components/common/Navbar';
-import { LoginPage } from './components/auth/LoginPage';
-import { SignupPage } from './components/auth/SignupPage';
-import { AdminDashboard } from './components/dashboard/AdminDashboard';
-import { UserProfile } from './components/dashboard/UserProfile';
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
-const ProtectedRoute = ({ children, requiredRole }) => {
-  const user = useAuthStore((state) => state.user);
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+import Layout from "./pages/Layout";
+import ProtectedRoute from "./pages/ProtectedRoute";
+import AdminRoute from "./pages/AdminRoute";
 
-  if (!isAuthenticated) return <Navigate to="/login" replace />;
-  if (requiredRole && user?.role !== requiredRole) return <Navigate to="/profile" replace />;
+import LoginPage from "./components/auth/LoginPage";
+import SignupPage from "./components/auth/SignupPage";
 
-  return children;
-};
+import GlobalDashboard from "./components/dashboard/GlobalDashboard";
+import AdminUsersTable from "./components/dashboard/AdminUsersTable";
+import UserProfile from "./components/dashboard/UserProfile";
 
 export default function App() {
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-  const { toasts, showToast } = useToast();
-
   return (
-    <Router>
-      {isAuthenticated && <Navbar showToast={showToast} />}
+    <BrowserRouter>
       <Routes>
-        <Route path="/login" element={<LoginPage showToast={showToast} />} />
-        <Route path="/signup" element={<SignupPage showToast={showToast} />} />
+        {/* Public Routes */}
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
+
+        {/* Protected Routes */}
         <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute requiredRole="admin">
-              <AdminDashboard showToast={showToast} />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/profile"
           element={
             <ProtectedRoute>
-              <UserProfile showToast={showToast} />
+              <Layout />
             </ProtectedRoute>
           }
-        />
-        <Route path="/" element={<Navigate to="/profile" replace />} />
+        >
+          <Route path="/" element={<Navigate to="/dashboard" replace />} />
+          <Route path="/dashboard" element={<GlobalDashboard />} />
+          <Route path="/profile" element={<UserProfile />} />
+
+          {/* Admin-only */}
+          <Route
+            path="/admin/users"
+            element={
+              <AdminRoute>
+                <AdminUsersTable />
+              </AdminRoute>
+            }
+          />
+        </Route>
+
+        {/* Fallback */}
+        <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
-      <ToastContainer toasts={toasts} />
-    </Router>
+    </BrowserRouter>
   );
 }
