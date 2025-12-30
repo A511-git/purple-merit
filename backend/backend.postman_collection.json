@@ -1,0 +1,1399 @@
+{
+	"info": {
+		"_postman_id": "f71a0db6-1cf3-4639-9afb-c0490d804283",
+		"name": "backend",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "49386451",
+		"_collection_link": "https://www.postman.com/igottempmail-838438/workspace/purple-merit/collection/49386451-f71a0db6-1cf3-4639-9afb-c0490d804283?action=share&source=collection_link&creator=49386451"
+	},
+	"item": [
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "auth",
+					"item": [
+						{
+							"name": "profile",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/user/profile",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"user",
+										"profile"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "profile",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/user/profile",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"user",
+												"profile"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "293"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"125-YZwEtUmuFEbVotiXOJd3ipwk6hw\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 30 Dec 2025 15:08:46 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"statusCode\": 200,\n    \"data\": {\n        \"_id\": \"69536e71e96b6365575981c6\",\n        \"email\": \"one@gmail.com\",\n        \"fullName\": \"One\",\n        \"role\": \"USER\",\n        \"status\": \"ACTIVE\",\n        \"createdAt\": \"2025-12-30T06:17:21.813Z\",\n        \"updatedAt\": \"2025-12-30T15:08:22.568Z\",\n        \"lastLogin\": \"2025-12-30T15:08:22.560Z\"\n    },\n    \"message\": \"Profile fetched\",\n    \"success\": true\n}"
+								},
+								{
+									"name": "error",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/user/profile",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"user",
+												"profile"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "75"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"4b-8Rdb7Br3PErJ+CYYv00ccK7vkJs\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 30 Dec 2025 16:49:12 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": false,\n    \"error\": {\n        \"name\": \"UNAUTHORIZED\",\n        \"message\": \"Invalid token\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "update",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"two@gmail.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/user/profile",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"user",
+										"profile"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "error",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"email\":\"two@gmail.com\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/user/profile",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"user",
+												"profile"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "83"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"53-ybQdNSuLwfVwe+4EW/RYTiMtEUY\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 30 Dec 2025 15:20:44 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": false,\n    \"error\": {\n        \"name\": \"DUPLICATE_KEY\",\n        \"message\": \"email already exists\"\n    }\n}"
+								},
+								{
+									"name": "update",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"fullName\": \"One One Updated\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/user/profile",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"user",
+												"profile"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "318"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"13e-DBSmd7Myx1djfXWm9OXnt3w67u4\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 30 Dec 2025 15:21:48 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"statusCode\": 200,\n    \"data\": {\n        \"_id\": \"69536e71e96b6365575981c6\",\n        \"email\": \"one@gmail.com\",\n        \"fullName\": \"One One Updated\",\n        \"role\": \"USER\",\n        \"status\": \"ACTIVE\",\n        \"createdAt\": \"2025-12-30T06:17:21.813Z\",\n        \"updatedAt\": \"2025-12-30T15:21:48.414Z\",\n        \"lastLogin\": \"2025-12-30T15:08:22.560Z\"\n    },\n    \"message\": \"Profile updated successfully\",\n    \"success\": true\n}"
+								}
+							]
+						},
+						{
+							"name": "password",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"oldPassword\":\"1234ASdf\",\r\n    \"newPassword\":\"#1234ASdf\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/user/profile/password",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"user",
+										"profile",
+										"password"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "error",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"oldPassword\":\"wrong-password-1Aa\",\r\n    \"newPassword\":\"#1234ASdf\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/user/profile/password",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"user",
+												"profile",
+												"password"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "81"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"51-fWPFlN76W7aFUMe0zv/w6vTHuq0\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 30 Dec 2025 16:41:01 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": false,\n    \"error\": {\n        \"name\": \"UNAUTHORIZED\",\n        \"message\": \"Invalid credentials\"\n    }\n}"
+								},
+								{
+									"name": "password",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"oldPassword\":\"1234ASdf\",\r\n    \"newPassword\":\"#1234ASdf\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/user/profile/password",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"user",
+												"profile",
+												"password"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "319"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"13f-u+StOODMDMxX+igaUmAFDUT5Kcg\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 30 Dec 2025 16:43:47 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"statusCode\": 200,\n    \"data\": {\n        \"_id\": \"69536e71e96b6365575981c6\",\n        \"email\": \"one@gmail.com\",\n        \"fullName\": \"One One Updated\",\n        \"role\": \"USER\",\n        \"status\": \"ACTIVE\",\n        \"createdAt\": \"2025-12-30T06:17:21.813Z\",\n        \"updatedAt\": \"2025-12-30T16:43:47.009Z\",\n        \"lastLogin\": \"2025-12-30T16:38:06.023Z\"\n    },\n    \"message\": \"Password changed successfully\",\n    \"success\": true\n}"
+								}
+							]
+						},
+						{
+							"name": "refresh-token",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/user/refresh",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"user",
+										"refresh"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "refresh-token",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/user/refresh",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"user",
+												"refresh"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Authorization",
+											"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTUzNmU3MWU5NmI2MzY1NTc1OTgxYzYiLCJpYXQiOjE3NjcxMTMxNDQsImV4cCI6MTc2NzExNjc0NH0.kQa1YILtdcCOTD2gPIm9VUmbSjk7meFLhJoWV1g6tV8"
+										},
+										{
+											"key": "Access-Control-Expose-Headers",
+											"value": "Authorization"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "16"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"10-oV4hJxRVSENxc/wX8+mA4/Pe4tA\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 30 Dec 2025 16:45:44 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true\n}"
+								},
+								{
+									"name": "error",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/user/refresh",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"user",
+												"refresh"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": null,
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "75"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"4b-8Rdb7Br3PErJ+CYYv00ccK7vkJs\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 30 Dec 2025 16:48:25 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": false,\n    \"error\": {\n        \"name\": \"UNAUTHORIZED\",\n        \"message\": \"Invalid token\"\n    }\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"one@gmail.com\",\r\n    \"password\":\"1234ASdf\",\r\n    \"fullName\":\"One\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/user/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"register"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "register",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"one@gmail.com\",\r\n    \"password\":\"1234ASdf\",\r\n    \"fullName\":\"One\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/user/register",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"user",
+										"register"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "267"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"10b-7YJdmfX0kCsqiJft70qFVKItih4\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 30 Dec 2025 06:17:21 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"statusCode\": 201,\n    \"data\": {\n        \"email\": \"one@gmail.com\",\n        \"fullName\": \"One\",\n        \"role\": \"USER\",\n        \"status\": \"ACTIVE\",\n        \"_id\": \"69536e71e96b6365575981c6\",\n        \"createdAt\": \"2025-12-30T06:17:21.813Z\",\n        \"updatedAt\": \"2025-12-30T06:17:21.813Z\"\n    },\n    \"message\": \"User registered successfully\",\n    \"success\": true\n}"
+						},
+						{
+							"name": "error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"two#gmail.com\",\r\n    \"password\":\"jhgfdjghc\",\r\n    \"fullName\":\"Two\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/user/register",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"user",
+										"register"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "234"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"ea-TLf7ET+GieTXWBRZOQHfzeOxz9Q\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 30 Dec 2025 14:36:25 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": false,\n    \"error\": {\n        \"name\": \"VALIDATION_ERROR\",\n        \"message\": \"Internal Server Error\",\n        \"stack\": {\n            \"email\": [\n                \"Invalid email\"\n            ],\n            \"password\": [\n                \"Password must contain at least one uppercase letter\",\n                \"Password must contain at least one number\"\n            ]\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ===== ACCESS TOKEN (from Authorization header) =====\r",
+									"const authHeader =\r",
+									"  pm.response.headers.get(\"Authorization\") ||\r",
+									"  pm.response.headers.get(\"authorization\");\r",
+									"\r",
+									"if (authHeader && authHeader.startsWith(\"Bearer \")) {\r",
+									"  const accessToken = authHeader.replace(\"Bearer \", \"\");\r",
+									"  pm.collectionVariables.set(\"ACCESS_TOKEN\", accessToken);\r",
+									"}\r",
+									"\r",
+									"// ===== REFRESH TOKEN (from cookies) =====\r",
+									"const cookies = pm.cookies.toObject();\r",
+									"\r",
+									"if (cookies.refreshToken) {\r",
+									"  pm.collectionVariables.set(\"REFRESH_TOKEN\", cookies.refreshToken);\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"one@gmail.com\",\r\n    \"password\":\"1234ASdf\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/user/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"one@gmail.com\",\r\n    \"password\":\"1234ASdf\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/user/login",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"user",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Authorization",
+									"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTUzNmU3MWU5NmI2MzY1NTc1OTgxYzYiLCJpYXQiOjE3NjcxMDYzMjMsImV4cCI6MTc2NzEwOTkyM30.asRQIdbAN9Ke0lcIjaJMcbGoKCNLKkDm5cyCpxJp2sc"
+								},
+								{
+									"key": "Access-Control-Expose-Headers",
+									"value": "Authorization"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "refreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTUzNmU3MWU5NmI2MzY1NTc1OTgxYzYiLCJlbWFpbCI6Im9uZUBnbWFpbC5jb20iLCJpYXQiOjE3NjcxMDYzMjMsImV4cCI6MTc2Nzk3MDMyM30.Y951r5DQexZVbx8lDXJD6R6lIhbkpFDHB76S4d35GrM; Max-Age=2592000; Path=/; Expires=Thu, 29 Jan 2026 14:52:03 GMT; HttpOnly; Secure; SameSite=None"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "294"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"126-R30J9rMJMvFiVPr9Mmouv+zPhTE\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 30 Dec 2025 14:52:03 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"statusCode\": 200,\n    \"data\": {\n        \"_id\": \"69536e71e96b6365575981c6\",\n        \"email\": \"one@gmail.com\",\n        \"fullName\": \"One\",\n        \"role\": \"USER\",\n        \"status\": \"ACTIVE\",\n        \"createdAt\": \"2025-12-30T06:17:21.813Z\",\n        \"updatedAt\": \"2025-12-30T14:52:03.481Z\",\n        \"lastLogin\": \"2025-12-30T14:52:03.476Z\"\n    },\n    \"message\": \"Login successful\",\n    \"success\": true\n}"
+						},
+						{
+							"name": "error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"one@gmail.com\",\r\n    \"password\":\"wrong-password-1Aa\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/user/login",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"user",
+										"login"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "81"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"51-fWPFlN76W7aFUMe0zv/w6vTHuq0\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 30 Dec 2025 15:05:02 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": false,\n    \"error\": {\n        \"name\": \"UNAUTHORIZED\",\n        \"message\": \"Invalid credentials\"\n    }\n}"
+						},
+						{
+							"name": "inactive-user-error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"one@gmail.com\",\r\n    \"password\":\"1234ASdf\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/user/login",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"user",
+										"login"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "80"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"50-uqas8UOdA2Ixtoq8WYLw/FOJ7aU\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 30 Dec 2025 17:32:41 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": false,\n    \"error\": {\n        \"name\": \"UNAUTHORIZED\",\n        \"message\": \"User is not active\"\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "admin",
+			"item": [
+				{
+					"name": "get-users",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": [
+						{
+							"name": "error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"one@gmail.com\",\r\n    \"password\":\"1234ASdf\"\r\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/admin/users",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"admin",
+										"users"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "74"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"4a-0OZn5Ro7Ym6PHsWOdurubQcmCwE\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 30 Dec 2025 17:21:06 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": false,\n    \"error\": {\n        \"name\": \"UNAUTHORIZED\",\n        \"message\": \"Unauthorized\"\n    }\n}"
+						},
+						{
+							"name": "get-users",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"one@gmail.com\",\r\n    \"password\":\"1234ASdf\"\r\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/admin/users",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"admin",
+										"users"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "639"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"27f-+5iokML3IZpeo2jjBzlC4QDsfJ8\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 30 Dec 2025 17:47:09 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"statusCode\": 200,\n    \"data\": {\n        \"data\": [\n            {\n                \"_id\": \"6953ed47f8723206c5032c81\",\n                \"email\": \"two@gmail.com\",\n                \"fullName\": \"Two\",\n                \"role\": \"ADMIN\",\n                \"status\": \"ACTIVE\",\n                \"createdAt\": \"2025-12-30T15:18:31.037Z\",\n                \"updatedAt\": \"2025-12-30T17:27:22.380Z\",\n                \"lastLogin\": \"2025-12-30T17:27:22.374Z\"\n            },\n            {\n                \"_id\": \"69536e71e96b6365575981c6\",\n                \"email\": \"one@gmail.com\",\n                \"fullName\": \"One One Updated\",\n                \"role\": \"USER\",\n                \"status\": \"ACTIVE\",\n                \"createdAt\": \"2025-12-30T06:17:21.813Z\",\n                \"updatedAt\": \"2025-12-30T17:33:35.241Z\",\n                \"lastLogin\": \"2025-12-30T17:17:09.590Z\"\n            }\n        ],\n        \"pagination\": {\n            \"page\": 1,\n            \"limit\": 10,\n            \"totalItems\": 2,\n            \"totalPages\": 1,\n            \"hasNext\": false,\n            \"hasPrev\": false\n        }\n    },\n    \"message\": \"Profile fetched\",\n    \"success\": true\n}"
+						}
+					]
+				},
+				{
+					"name": "update-status",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\":\"INACTIVE\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/admin/users/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"admin",
+								"users",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "69536e71e96b6365575981c6"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "update-status",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"status\":\"ACTIVE\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/admin/users/:id",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"admin",
+										"users",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "69536e71e96b6365575981c6"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "307"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"133-csNA6/VRLo9ukNRX2OVzq21fs6s\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 30 Dec 2025 17:30:36 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"statusCode\": 200,\n    \"data\": {\n        \"_id\": \"69536e71e96b6365575981c6\",\n        \"email\": \"one@gmail.com\",\n        \"fullName\": \"One One Updated\",\n        \"role\": \"USER\",\n        \"status\": \"INACTIVE\",\n        \"createdAt\": \"2025-12-30T06:17:21.813Z\",\n        \"updatedAt\": \"2025-12-30T17:30:36.655Z\",\n        \"lastLogin\": \"2025-12-30T17:17:09.590Z\"\n    },\n    \"message\": \"Profile updated\",\n    \"success\": true\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "ping",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/ping",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"ping"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "ping",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/ping",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ping"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/html; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "4"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"4-DlFKBmK8tp3IY5U9HOJuPUDoGoc\""
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 30 Dec 2025 06:10:17 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "pong"
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					"// ===== LOAD TOKENS FROM collectionVariables =====\r",
+					"const accessToken = pm.collectionVariables.get(\"ACCESS_TOKEN\");\r",
+					"const refreshToken = pm.collectionVariables.get(\"REFRESH_TOKEN\");\r",
+					"\r",
+					"// ===== SET AUTHORIZATION HEADER =====\r",
+					"if (accessToken) {\r",
+					"  pm.request.headers.upsert({\r",
+					"    key: \"Authorization\",\r",
+					"    value: `Bearer ${accessToken}`,\r",
+					"  });\r",
+					"}\r",
+					"\r",
+					"// ===== SET REFRESH TOKEN COOKIE (ONLY IF NEEDED) =====\r",
+					"if (refreshToken) {\r",
+					"  pm.request.headers.upsert({\r",
+					"    key: \"Cookie\",\r",
+					"    value: `refreshToken=${refreshToken}`,\r",
+					"  });\r",
+					"}\r",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "ACCESS_TOKEN",
+			"value": ""
+		},
+		{
+			"key": "REFRESH_TOKEN",
+			"value": ""
+		}
+	]
+}

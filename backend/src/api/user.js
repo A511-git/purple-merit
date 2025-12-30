@@ -29,7 +29,8 @@ export const user = () => {
             httpOnly: true,
             secure: true,
             sameSite: "none",
-            maxAge: 30 * 24 * 60 * 60 * 1000
+            maxAge: 30 * 24 * 60 * 60 * 1000,
+            path: "/api/v1/user/refresh"
         });
 
         res.status(200).json(new ApiResponse(200, user, "Login successful"));
@@ -49,12 +50,18 @@ export const user = () => {
         res.status(200).json({ success: true });
     }));
 
-    router.get("/me", UserAuth, AsyncHandler(async (req, res) => {
+    router.get("/profile", UserAuth, AsyncHandler(async (req, res) => {
         const result = await userService.getById(req.user._id);
         res.status(200).json(new ApiResponse(200, result, "Profile fetched"));
     }));
 
-    router.put("/me/password", UserAuth, AsyncHandler(async (req, res) => {
+    router.put("/profile", UserAuth, AsyncHandler(async (req, res) => {
+        const data = userValidator.update(req.body);
+        const result = await userService.update(req.user._id, data);
+        res.status(200).json(new ApiResponse(200, result, "Profile updated successfully"));
+    }));
+
+    router.put("/profile/password", UserAuth, AsyncHandler(async (req, res) => {
         const data = userValidator.updatePassword(req.body);
         const result = await userService.updatePassword(req.user._id, data);
         res.status(200).json(new ApiResponse(200, result, "Password changed successfully"));

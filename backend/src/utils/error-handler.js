@@ -18,6 +18,7 @@ const ErrorHandler = async (err, req, res, next) => {
             error: {
                 name: err.name,
                 message,
+                stack: err?.errorStack,
             },
         });
     }

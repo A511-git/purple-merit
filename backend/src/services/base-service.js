@@ -30,6 +30,11 @@ class BaseService {
     async getAll() {
         return this.repository.getAll();
     }
+
+    async paginate(filter, options) {
+        return this.repository.paginate(filter, options);
+    }
+
 }
 
 export { BaseService };

@@ -7,7 +7,7 @@ import {
     GenerateRefreshToken
 } from "../utils/index.js";
 import { BaseService } from "./base-service.js"
-import { NotFoundError, UnauthorizedError, DatabaseError, APIError } from "../utils/app-errors.js";
+import { NotFoundError, UnauthorizedError, DatabaseError, APIError, STATUS_CODES } from "../utils/app-errors.js";
 
 
 class UserService extends BaseService {
@@ -31,18 +31,21 @@ class UserService extends BaseService {
         if (!user) throw new UnauthorizedError("Invalid credentials");
 
         const valid = await ValidatePassword(password, user.password);
-        if (!valid) throw new UnauthorizedError("Invalid credentials");
+        if (!valid) throw new UnauthorizedError(401,"Invalid credentials");
+
+        if (user.status!=="ACTIVE") throw new UnauthorizedError(403,"User is not active");
 
         const payload = { _id: user._id, email: user.email, name: user.name, role: user.role};
 
+        const lastLogin = new Date();
         const accessToken = GenerateAccessToken(payload);
         const refreshToken = GenerateRefreshToken(payload);
 
-        const result = await this.repository.update(user._id, refreshToken);
+        const result = await this.repository.update(user._id, {refreshToken, lastLogin});
         if (!result) throw new NotFoundError('User not found');
 
         return {
-            user,
+            user: result,
             accessToken,
             refreshToken
         };
@@ -53,7 +56,7 @@ class UserService extends BaseService {
         if (!user) throw new NotFoundError('User not found');
 
         const valid = await ValidatePassword(oldPassword, user.password);
-        if (!valid) throw new UnauthorizedError("Invalid credentials");
+        if (!valid) throw new UnauthorizedError(401,"Invalid credentials");
         const password = await GeneratePassword(newPassword, 10);
         if (!password) throw new APIError();
 

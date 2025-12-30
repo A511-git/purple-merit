@@ -17,12 +17,12 @@ export const ValidatePassword = async (enteredPassword, savedPassword) =>
 
 // ================= TOKENS =================
 export const GenerateAccessToken = ({ _id, email, role }) =>{
-  const payload = { _id };
+  const payload = { _id, email, role};
   return jwt.sign(payload, ACCESS_SECRET, { expiresIn: ACCESS_EXPIRY });
 };
 
 export const GenerateRefreshToken = ({ _id, email, name, role }) =>{
-  const payload = { _id, email, name };
+  const payload = { _id, email, name, role };
   return jwt.sign(payload, REFRESH_SECRET, { expiresIn: REFRESH_EXPIRY });
 };
 

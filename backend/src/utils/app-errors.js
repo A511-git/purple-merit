@@ -67,17 +67,21 @@ class DatabaseError extends AppError {
     super(name, statusCode, description, isOperational);
     this.cause = cause;
     this.metadata = metadata;
+    this.description = description;
+  
   }
 }
 
 class UnauthorizedError extends AppError {
-  constructor(description = "Unauthorized") {
+  constructor(statusCode,description = "Unauthorized") {
     super(
       "UNAUTHORIZED",
       STATUS_CODES.UN_AUTHORISED,
       description,
       true
     );
+    this.statusCode = statusCode || STATUS_CODES.UN_AUTHORISED;
+    this.description = description;
   }
 }
 

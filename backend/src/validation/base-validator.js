@@ -27,7 +27,7 @@ class BaseValidator {
 
     _parse(schema, data) {
         const result = schema.strip().safeParse(data);
-        if (!result.success) throw new ValidationError("Invalid data", result.error);
+        if (!result.success) throw new ValidationError("Invalid data", result.error.flatten()?.fieldErrors);
         return result.data;
     }
 }

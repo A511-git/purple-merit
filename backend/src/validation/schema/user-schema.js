@@ -4,7 +4,7 @@ import { BaseSchema } from "./base-schema.js";
 
 export const UserSchema = {
     register: z.object({
-        name: BaseSchema.name,
+        fullName: BaseSchema.fullName,
         email: BaseSchema.email,
         password: BaseSchema.password,
     }),
@@ -24,6 +24,14 @@ export const UserSchema = {
     }),
 
     update: z.object({
-        status: BaseSchema.status
-    })
+        status: BaseSchema.status.optional(),
+        email: BaseSchema.email.optional(),
+        fullName: BaseSchema.fullName.optional(),
+    }).refine(
+        (data) =>
+            Object.values(data).some((value) => value !== undefined),
+        {
+            message: "At least one field must be provided for update",
+        }
+    )
 };
