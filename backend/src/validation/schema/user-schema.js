@@ -24,6 +24,7 @@ export const UserSchema = {
     }),
 
     update: z.object({
+        id: BaseSchema.id.optional(),
         status: BaseSchema.status.optional(),
         email: BaseSchema.email.optional(),
         fullName: BaseSchema.fullName.optional(),
@@ -33,5 +34,12 @@ export const UserSchema = {
         {
             message: "At least one field must be provided for update",
         }
-    )
+    ).refine(
+    ({ id, status }) =>
+        (id && status) || (!id && !status),
+    {
+        message: "id and status must be provided together",
+        path: ["status"],
+    }
+)
 };

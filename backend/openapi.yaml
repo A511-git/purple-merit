@@ -1,0 +1,690 @@
+openapi: 3.0.0
+info:
+  title: backend
+  version: 1.0.0
+  description: ""
+servers:
+  - url: "{{base_url}}"
+  - url: ""
+paths:
+  /user/profile:
+    get:
+      summary: profile
+      responses:
+        "200":
+          description: profile
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+              example: Express
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+              example: "*"
+            Content-Length:
+              schema:
+                type: integer
+              example: "293"
+            ETag:
+              schema:
+                type: string
+              example: W/"125-YZwEtUmuFEbVotiXOJd3ipwk6hw"
+            Date:
+              schema:
+                type: string
+              example: Tue, 30 Dec 2025 15:08:46 GMT
+            Connection:
+              schema:
+                type: string
+              example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+              example: timeout=5
+        "401":
+          description: error
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+              example: Express
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+              example: "*"
+            Content-Length:
+              schema:
+                type: integer
+              example: "75"
+            ETag:
+              schema:
+                type: string
+              example: W/"4b-8Rdb7Br3PErJ+CYYv00ccK7vkJs"
+            Date:
+              schema:
+                type: string
+              example: Tue, 30 Dec 2025 16:49:12 GMT
+            Connection:
+              schema:
+                type: string
+              example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+              example: timeout=5
+      tags:
+        - user
+        - auth
+    put:
+      summary: update
+      responses:
+        "200":
+          description: update
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+              example: Express
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+              example: "*"
+            Content-Length:
+              schema:
+                type: integer
+              example: "318"
+            ETag:
+              schema:
+                type: string
+              example: W/"13e-DBSmd7Myx1djfXWm9OXnt3w67u4"
+            Date:
+              schema:
+                type: string
+              example: Tue, 30 Dec 2025 15:21:48 GMT
+            Connection:
+              schema:
+                type: string
+              example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+              example: timeout=5
+        "400":
+          description: error
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+              example: Express
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+              example: "*"
+            Content-Length:
+              schema:
+                type: integer
+              example: "83"
+            ETag:
+              schema:
+                type: string
+              example: W/"53-ybQdNSuLwfVwe+4EW/RYTiMtEUY"
+            Date:
+              schema:
+                type: string
+              example: Tue, 30 Dec 2025 15:20:44 GMT
+            Connection:
+              schema:
+                type: string
+              example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+              example: timeout=5
+      tags:
+        - user
+        - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+            example:
+              email: two@gmail.com
+  /user/profile/password:
+    put:
+      summary: password
+      responses:
+        "200":
+          description: password
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+              example: Express
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+              example: "*"
+            Content-Length:
+              schema:
+                type: integer
+              example: "319"
+            ETag:
+              schema:
+                type: string
+              example: W/"13f-u+StOODMDMxX+igaUmAFDUT5Kcg"
+            Date:
+              schema:
+                type: string
+              example: Tue, 30 Dec 2025 16:43:47 GMT
+            Connection:
+              schema:
+                type: string
+              example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+              example: timeout=5
+        "401":
+          description: error
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+              example: Express
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+              example: "*"
+            Content-Length:
+              schema:
+                type: integer
+              example: "81"
+            ETag:
+              schema:
+                type: string
+              example: W/"51-fWPFlN76W7aFUMe0zv/w6vTHuq0"
+            Date:
+              schema:
+                type: string
+              example: Tue, 30 Dec 2025 16:41:01 GMT
+            Connection:
+              schema:
+                type: string
+              example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+              example: timeout=5
+      tags:
+        - user
+        - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                oldPassword:
+                  type: string
+                newPassword:
+                  type: string
+            example:
+              oldPassword: 1234ASdf
+              newPassword: "#1234ASdf"
+  /user/refresh:
+    get:
+      summary: refresh-token
+      responses:
+        "200":
+          description: refresh-token
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+              example: Express
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+              example: "*"
+            Authorization:
+              schema:
+                type: string
+              example: >-
+                Bearer
+                eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTUzNmU3MWU5NmI2MzY1NTc1OTgxYzYiLCJpYXQiOjE3NjcxMTMxNDQsImV4cCI6MTc2NzExNjc0NH0.kQa1YILtdcCOTD2gPIm9VUmbSjk7meFLhJoWV1g6tV8
+            Access-Control-Expose-Headers:
+              schema:
+                type: string
+              example: Authorization
+            Content-Length:
+              schema:
+                type: integer
+              example: "16"
+            ETag:
+              schema:
+                type: string
+              example: W/"10-oV4hJxRVSENxc/wX8+mA4/Pe4tA"
+            Date:
+              schema:
+                type: string
+              example: Tue, 30 Dec 2025 16:45:44 GMT
+            Connection:
+              schema:
+                type: string
+              example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+              example: timeout=5
+        "401":
+          description: error
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+              example: Express
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+              example: "*"
+            Content-Length:
+              schema:
+                type: integer
+              example: "75"
+            ETag:
+              schema:
+                type: string
+              example: W/"4b-8Rdb7Br3PErJ+CYYv00ccK7vkJs"
+            Date:
+              schema:
+                type: string
+              example: Tue, 30 Dec 2025 16:48:25 GMT
+            Connection:
+              schema:
+                type: string
+              example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+              example: timeout=5
+      tags:
+        - user
+        - auth
+  /user/register:
+    post:
+      summary: register
+      responses:
+        "201":
+          description: register
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+              example: Express
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+              example: "*"
+            Content-Length:
+              schema:
+                type: integer
+              example: "267"
+            ETag:
+              schema:
+                type: string
+              example: W/"10b-7YJdmfX0kCsqiJft70qFVKItih4"
+            Date:
+              schema:
+                type: string
+              example: Tue, 30 Dec 2025 06:17:21 GMT
+            Connection:
+              schema:
+                type: string
+              example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+              example: timeout=5
+        "400":
+          description: error
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+              example: Express
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+              example: "*"
+            Content-Length:
+              schema:
+                type: integer
+              example: "234"
+            ETag:
+              schema:
+                type: string
+              example: W/"ea-TLf7ET+GieTXWBRZOQHfzeOxz9Q"
+            Date:
+              schema:
+                type: string
+              example: Tue, 30 Dec 2025 14:36:25 GMT
+            Connection:
+              schema:
+                type: string
+              example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+              example: timeout=5
+      tags:
+        - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                fullName:
+                  type: string
+            example:
+              email: one@gmail.com
+              password: 1234ASdf
+              fullName: One
+  /user/login:
+    post:
+      summary: login
+      responses:
+        "200":
+          description: login
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+              example: Express
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+              example: "*"
+            Authorization:
+              schema:
+                type: string
+              example: >-
+                Bearer
+                eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTUzNmU3MWU5NmI2MzY1NTc1OTgxYzYiLCJpYXQiOjE3NjcxMDYzMjMsImV4cCI6MTc2NzEwOTkyM30.asRQIdbAN9Ke0lcIjaJMcbGoKCNLKkDm5cyCpxJp2sc
+            Access-Control-Expose-Headers:
+              schema:
+                type: string
+              example: Authorization
+            Set-Cookie:
+              schema:
+                type: string
+              example: >-
+                refreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OTUzNmU3MWU5NmI2MzY1NTc1OTgxYzYiLCJlbWFpbCI6Im9uZUBnbWFpbC5jb20iLCJpYXQiOjE3NjcxMDYzMjMsImV4cCI6MTc2Nzk3MDMyM30.Y951r5DQexZVbx8lDXJD6R6lIhbkpFDHB76S4d35GrM;
+                Max-Age=2592000; Path=/; Expires=Thu, 29 Jan 2026 14:52:03 GMT;
+                HttpOnly; Secure; SameSite=None
+            Content-Length:
+              schema:
+                type: integer
+              example: "294"
+            ETag:
+              schema:
+                type: string
+              example: W/"126-R30J9rMJMvFiVPr9Mmouv+zPhTE"
+            Date:
+              schema:
+                type: string
+              example: Tue, 30 Dec 2025 14:52:03 GMT
+            Connection:
+              schema:
+                type: string
+              example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+              example: timeout=5
+        "401":
+          description: error
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+              example: Express
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+              example: "*"
+            Content-Length:
+              schema:
+                type: integer
+              example: "81"
+            ETag:
+              schema:
+                type: string
+              example: W/"51-fWPFlN76W7aFUMe0zv/w6vTHuq0"
+            Date:
+              schema:
+                type: string
+              example: Tue, 30 Dec 2025 15:05:02 GMT
+            Connection:
+              schema:
+                type: string
+              example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+              example: timeout=5
+        "403":
+          description: inactive-user-error
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+              example: Express
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+              example: "*"
+            Content-Length:
+              schema:
+                type: integer
+              example: "80"
+            ETag:
+              schema:
+                type: string
+              example: W/"50-uqas8UOdA2Ixtoq8WYLw/FOJ7aU"
+            Date:
+              schema:
+                type: string
+              example: Tue, 30 Dec 2025 17:32:41 GMT
+            Connection:
+              schema:
+                type: string
+              example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+              example: timeout=5
+      tags:
+        - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+            example:
+              email: one@gmail.com
+              password: 1234ASdf
+  /:
+    get:
+      summary: get-users
+      responses:
+        "200":
+          description: get-users
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+              example: Express
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+              example: "*"
+            Content-Length:
+              schema:
+                type: integer
+              example: "639"
+            ETag:
+              schema:
+                type: string
+              example: W/"27f-+5iokML3IZpeo2jjBzlC4QDsfJ8"
+            Date:
+              schema:
+                type: string
+              example: Tue, 30 Dec 2025 17:47:09 GMT
+            Connection:
+              schema:
+                type: string
+              example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+              example: timeout=5
+        "403":
+          description: error
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+              example: Express
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+              example: "*"
+            Content-Length:
+              schema:
+                type: integer
+              example: "74"
+            ETag:
+              schema:
+                type: string
+              example: W/"4a-0OZn5Ro7Ym6PHsWOdurubQcmCwE"
+            Date:
+              schema:
+                type: string
+              example: Tue, 30 Dec 2025 17:21:06 GMT
+            Connection:
+              schema:
+                type: string
+              example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+              example: timeout=5
+      tags:
+        - admin
+  /admin/users/{id}:
+    put:
+      summary: update-status
+      responses:
+        "200":
+          description: update-status
+          headers:
+            X-Powered-By:
+              deprecated: false
+              schema: {}
+              example: Express
+            Access-Control-Allow-Origin:
+              deprecated: false
+              schema: {}
+              example: "*"
+            Content-Length:
+              deprecated: false
+              schema: {}
+              example: "307"
+            ETag:
+              deprecated: false
+              schema: {}
+              example: W/"133-csNA6/VRLo9ukNRX2OVzq21fs6s"
+            Date:
+              deprecated: false
+              schema: {}
+              example: Tue, 30 Dec 2025 17:30:36 GMT
+            Connection:
+              deprecated: false
+              schema: {}
+              example: keep-alive
+            Keep-Alive:
+              deprecated: false
+              schema: {}
+              example: timeout=5
+      tags:
+        - admin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+            example:
+              status: INACTIVE
+    parameters:
+      - name: id
+        in: path
+        required: true
+        deprecated: false
+        schema: {}
+        example: 69536e71e96b6365575981c6
+  /ping:
+    get:
+      summary: ping
+      responses:
+        "200":
+          description: ping
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+              example: Express
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+              example: "*"
+            Content-Length:
+              schema:
+                type: integer
+              example: "4"
+            ETag:
+              schema:
+                type: string
+              example: W/"4-DlFKBmK8tp3IY5U9HOJuPUDoGoc"
+            Date:
+              schema:
+                type: string
+              example: Tue, 30 Dec 2025 06:10:17 GMT
+            Connection:
+              schema:
+                type: string
+              example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+              example: timeout=5

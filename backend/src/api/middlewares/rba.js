@@ -7,7 +7,6 @@ export const AllowRoles = (roles = []) => {
         const userRole = req.user.role;
         if(!roles.includes(userRole))
             next(new UnauthorizedError());
-        console.log("jwt user",req.user);
         
         return next();            
     }

@@ -32,7 +32,7 @@ export const admin = () => {
     }));
 
     router.put("/users/:id", UserAuth, AllowRoles(["ADMIN"]), AsyncHandler(async (req, res) => {
-        const data = userValidator.update(req.body);
+        const data = userValidator.update({ ...req.body, id: req.params.id });
         const result = await userService.update(req.params.id, data);
         res.status(200).json(new ApiResponse(200, result, "Profile updated"));
     }));
