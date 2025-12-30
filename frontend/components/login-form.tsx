@@ -1,139 +1,101 @@
-"use client";
-import { showSuccess, showError } from "@/components/toast"
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useAuth } from "@/providers/context/AuthContext";
-import { validateAuth } from "@/lib/validators/auth";
+"use client"
 
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  Field,
-  FieldDescription,
-  FieldGroup,
-  FieldLabel,
-} from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
+import type React from "react"
 
-export function LoginForm({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
-  const router = useRouter();
-  const { signIn } = useAuth();
+import { useState } from "react"
+import { useRouter } from "next/navigation"
+import { useAuth } from "@/contexts/auth-context"
+import { validateEmail, validatePassword } from "@/lib/validation"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import Link from "next/link"
 
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+export function LoginForm() {
+  const router = useRouter()
+  const { login, isLoading } = useAuth()
+  const [formData, setFormData] = useState({ email: "", password: "" })
+  const [errors, setErrors] = useState<Record<string, string>>({})
 
-  const [errors, setErrors] = useState<Record<string, string[]>>({});
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    setFormData((prev) => ({ ...prev, [name]: value }))
+    setErrors((prev) => ({ ...prev, [name]: "" }))
+  }
 
-  const validateLive = (field: string, value: string) => {
-    const data = { email, password, confirmPassword: undefined, [field]: value };
-    const result = validateAuth(data);
+  const validate = () => {
+    const newErrors: Record<string, string> = {}
+    const emailError = validateEmail(formData.email)
+    const passwordError = validatePassword(formData.password)
 
-    if (!result.success) setErrors(result.errors);
-    else setErrors({});
-  };
+    if (emailError) newErrors.email = emailError
+    if (passwordError) newErrors.password = "Password is required"
+
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const result = validateAuth({
-      email,
-      password,
-      confirmPassword: undefined,
-    });
+    e.preventDefault()
+    if (!validate()) return
 
-    if (!result.success) {
-      setErrors(result.errors);
-      return;
+    try {
+      await login(formData.email, formData.password)
+      router.push("/dashboard")
+    } catch (error) {
+      console.error("Login error:", error)
     }
-
-    const { error } = await signIn(email, password);
-
-    if (error) {
-      showError(error.message || "Something went wrong");
-      return;
-    }
-
-    showSuccess("Logged in successfully");
-    router.push("/dashboard");
-  };
+  }
 
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card>
-        <CardHeader>
-          <CardTitle>Login to your account</CardTitle>
-          <CardDescription>
-            Enter your email and password below
-          </CardDescription>
-        </CardHeader>
+    <Card className="w-full max-w-md">
+      <CardHeader>
+        <CardTitle>Login</CardTitle>
+        <CardDescription>Enter your credentials to access your account</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="email">Email</Label>
+            <Input
+              id="email"
+              name="email"
+              type="email"
+              placeholder="you@example.com"
+              value={formData.email}
+              onChange={handleChange}
+              disabled={isLoading}
+            />
+            {errors.email && <p className="text-sm text-destructive">{errors.email}</p>}
+          </div>
 
-        <CardContent>
-          <form onSubmit={handleSubmit}>
-            <FieldGroup>
-              {/* EMAIL */}
-              <Field>
-                <FieldLabel htmlFor="email">Email</FieldLabel>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="m@example.com"
-                  value={email}
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                    validateLive("email", e.target.value);
-                  }}
-                />
-                {errors.email && (
-                  <p className="text-red-500 text-sm mt-1">{errors.email[0]}</p>
-                )}
-              </Field>
-              <Field>
-                <div className="flex items-center">
-                  <FieldLabel htmlFor="password">Password</FieldLabel>
-                  <a
-                    href="#"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                  >
-                    Forgot password?
-                  </a>
-                </div>
+          <div className="space-y-2">
+            <Label htmlFor="password">Password</Label>
+            <Input
+              id="password"
+              name="password"
+              type="password"
+              placeholder="Enter your password"
+              value={formData.password}
+              onChange={handleChange}
+              disabled={isLoading}
+            />
+            {errors.password && <p className="text-sm text-destructive">{errors.password}</p>}
+          </div>
 
-                <Input
-                  id="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                    validateLive("password", e.target.value);
-                  }}
-                />
-                {errors.password && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors.password[0]}
-                  </p>
-                )}
-              </Field>
-              <Field>
-                <Button type="submit" className="w-full">
-                  Login
-                </Button>
-                <FieldDescription className="text-center">
-                  Don&apos;t have an account? <a href="#">Sign up</a>
-                </FieldDescription>
-              </Field>
-            </FieldGroup>
-          </form>
-        </CardContent>
-      </Card>
-    </div>
-  );
+          <Button type="submit" className="w-full" disabled={isLoading}>
+            {isLoading ? "Logging in..." : "Login"}
+          </Button>
+
+          <div className="text-center text-sm">
+            Don&apos;t have an account?{" "}
+            <Link href="/signup" className="text-primary hover:underline">
+              Sign up
+            </Link>
+          </div>
+        </form>
+      </CardContent>
+    </Card>
+  )
 }
