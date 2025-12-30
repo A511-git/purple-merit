@@ -1,6 +1,6 @@
 import { BaseRepository } from "./base-repository.js";
 import { UserModel } from "../models/index.js";
-import { MapMongoError } from "../../backend/src/utils/map-mongo-error.js";
+import { MapMongoError } from "../../utils/map-mongo-error.js";
 
 class UserRepository extends BaseRepository {
     constructor() {

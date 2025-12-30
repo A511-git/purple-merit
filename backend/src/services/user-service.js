@@ -1,13 +1,13 @@
-import { UserRepository } from "../repository/index.js";
+import { UserRepository } from "../database/repository/index.js";
 import {
     GeneratePassword,
     ValidatePassword,
     ValidateRefreshToken,
     GenerateAccessToken,
     GenerateRefreshToken
-} from "../../backend/src/utils/index.js";
+} from "../utils/index.js";
 import { BaseService } from "./base-service.js"
-import { NotFoundError, UnauthorizedError, DatabaseError, APIError } from "../../backend/src/utils/app-errors.js";
+import { NotFoundError, UnauthorizedError, DatabaseError, APIError } from "../utils/app-errors.js";
 
 
 class UserService extends BaseService {

@@ -1,4 +1,4 @@
-import { MapMongoError } from "../../backend/src/utils/map-mongo-error.js";
+import { MapMongoError } from "../../utils/map-mongo-error.js";
 
 class BaseRepository {
     constructor(model) {
