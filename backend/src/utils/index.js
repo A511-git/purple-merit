@@ -16,12 +16,12 @@ export const ValidatePassword = async (enteredPassword, savedPassword) =>
   bcrypt.compare(enteredPassword, savedPassword);
 
 // ================= TOKENS =================
-export const GenerateAccessToken = ({ _id }) =>{
+export const GenerateAccessToken = ({ _id, email, role }) =>{
   const payload = { _id };
   return jwt.sign(payload, ACCESS_SECRET, { expiresIn: ACCESS_EXPIRY });
 };
 
-export const GenerateRefreshToken = ({ _id, email, name }) =>{
+export const GenerateRefreshToken = ({ _id, email, name, role }) =>{
   const payload = { _id, email, name };
   return jwt.sign(payload, REFRESH_SECRET, { expiresIn: REFRESH_EXPIRY });
 };
