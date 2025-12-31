@@ -27,43 +27,37 @@ let queue: ((token: string) => void)[] = [];
 
 http.interceptors.response.use(
     (res) => res,
-    async (error: AxiosError<any>) => {
+    async (error) => {
         const original = error.config as any;
 
-        if (error.response?.status === 401 && !original._retry) {
+        if (
+            error.response?.status === 401 &&
+            !original._retry &&
+            !original.url?.includes("/user/login") &&
+            !original.url?.includes("/user/refresh")
+        ) {
             original._retry = true;
 
-            if (!isRefreshing) {
-                isRefreshing = true;
-                try {
-                    const refreshRes = await axios.get(
-                        `${process.env.NEXT_PUBLIC_API_URL}/user/refresh`,
-                        { withCredentials: true }
-                    );
+            try {
+                const refreshRes = await axios.get(
+                    `${process.env.NEXT_PUBLIC_API_URL}/user/refresh`,
+                    { withCredentials: true }
+                );
 
-                    const newToken =
-                        refreshRes.headers.authorization?.split(" ")[1];
+                const newToken =
+                    refreshRes.headers.authorization?.split(" ")[1];
 
-                    if (!newToken) throw new Error("No refresh token");
+                if (!newToken) throw new Error("No token");
 
-                    localStorage.setItem("accessToken", newToken);
-                    queue.forEach((cb) => cb(newToken));
-                    queue = [];
-                } catch {
-                    localStorage.removeItem("accessToken");
-                    window.location.href = "/login";
-                    return Promise.reject(error);
-                } finally {
-                    isRefreshing = false;
-                }
+                localStorage.setItem("accessToken", newToken);
+                original.headers.Authorization = `Bearer ${newToken}`;
+
+                return http(original);
+            } catch {
+                localStorage.removeItem("accessToken");
+                window.location.href = "/login";
+                return Promise.reject(error);
             }
-
-            return new Promise((resolve) => {
-                queue.push((token: string) => {
-                    original.headers.Authorization = `Bearer ${token}`;
-                    resolve(http(original));
-                });
-            });
         }
 
         return Promise.reject(error);

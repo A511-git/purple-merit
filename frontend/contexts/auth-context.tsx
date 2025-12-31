@@ -32,6 +32,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   /* ---------- Init auth ---------- */
   useEffect(() => {
     const initAuth = async () => {
+      const token = localStorage.getItem("accessToken");
+      if (!token) {
+        setIsLoading(false);
+        return;
+      }
+
       try {
         const profile = await authClient.getProfile();
         setUser(profile);
@@ -45,6 +51,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     initAuth();
   }, []);
+
 
   /* ---------- Login ---------- */
   const login = async (email: string, password: string) => {
