@@ -12,6 +12,19 @@ export interface User {
   status: "ACTIVE" | "INACTIVE";
   createdAt: string;
 }
+export interface Pagination {
+  page: number;
+  limit: number;
+  totalItems: number;
+  totalPages: number;
+  hasNext: boolean;
+  hasPrev: boolean;
+}
+
+export interface GetUsersResponse {
+  users: User[];
+  pagination: Pagination | null;
+}
 
 export interface LoginPayload {
   email: string;
@@ -76,10 +89,18 @@ class AuthClient {
 
   /* ---------- ADMIN ---------- */
 
-  async getUsers(): Promise<User[]> {
-    const res = await http.get("/admin/users");
-    return res.data.data ?? res.data;
+  async getUsers(page = 1, limit = 10) {
+  const res = await http.get("/admin/users", {
+    params: { page, limit },
+  })
+
+  const payload = res.data?.data
+
+  return {
+    users: Array.isArray(payload?.data) ? payload.data : [],
+    pagination: payload?.pagination ?? null,
   }
+}
 
   async updateUserStatus(
     userId: string,

@@ -19,8 +19,20 @@ export function normalizeApiError(
         return { message: fallback };
     }
 
-    // Validation errors (your `stack`)
-    if (backendError.stack && typeof backendError.stack === "object") {
+    if (
+        backendError.name === "UNAUTHORIZED" ||
+        error.response?.status === 401
+    ) {
+        return {
+            message: backendError.message || "Invalid credentials",
+        };
+    }
+
+    if (
+        backendError.name === "VALIDATION_ERROR" &&
+        backendError.stack &&
+        typeof backendError.stack === "object"
+    ) {
         return {
             message: "Please fix the highlighted errors",
             fieldErrors: backendError.stack,
