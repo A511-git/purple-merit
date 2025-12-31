@@ -1397,21 +1397,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const initAuth = async () => {
-      const token = authClient.getToken()
-      if (token) {
-        try {
-          const profile = await authClient.getProfile()
-          setUser(profile)
-        } catch (error) {
-          authClient.clearToken()
-          setUser(null)
-        }
+      try {
+        // If accessToken exists, interceptor will attach it
+        const profile = await authClient.getProfile()
+        setUser(profile)
+      } catch {
+        localStorage.removeItem("accessToken")
+        setUser(null)
+      } finally {
+        setIsLoading(false)
       }
-      setIsLoading(false)
     }
 
     initAuth()
   }, [])
+
 
   const login = async (email: string, password: string) => {
     setIsLoading(true)
@@ -1452,10 +1452,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   const logout = () => {
-    authClient.clearToken()
+    localStorage.removeItem("accessToken")
     setUser(null)
     toast({ title: "Success", description: "Logged out successfully" })
   }
+
 
   const updateProfile = async (data: { email?: string; fullName?: string }) => {
     setIsLoading(true)
@@ -1769,138 +1770,177 @@ export { useToast, toast }
 ## File: lib\auth-client.ts 
 
 ```js
-// API client for authentication and user management
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api"
+import { http } from "./http";
 
-export interface LoginRequest {
-  email: string
-  password: string
-}
-
-export interface RegisterRequest {
-  email: string
-  password: string
-  fullName: string
-}
+/* =========================
+   Types
+========================= */
 
 export interface User {
-  _id: string
-  email: string
-  fullName: string
-  role: "USER" | "ADMIN"
-  status: "ACTIVE" | "INACTIVE"
-  createdAt: string
+  _id: string;
+  email: string;
+  fullName: string;
+  role: "USER" | "ADMIN";
+  status: "ACTIVE" | "INACTIVE";
+  createdAt: string;
 }
 
-export interface LoginResponse {
-  user: User
-  token: string
+export interface LoginPayload {
+  email: string;
+  password: string;
 }
+
+export interface RegisterPayload {
+  email: string;
+  password: string;
+  fullName: string;
+}
+
+/* =========================
+   Auth Client
+========================= */
 
 class AuthClient {
-  private token: string | null = null
+  /* ---------- AUTH ---------- */
 
-  constructor() {
-    if (typeof window !== "undefined") {
-      this.token = localStorage.getItem("authToken")
-    }
+  async login(data: LoginPayload): Promise<User> {
+    const res = await http.post("/user/login", data);
+
+    const token = res.headers.authorization?.split(" ")[1];
+    if (!token) throw new Error("Missing access token");
+
+    localStorage.setItem("accessToken", token);
+    return res.data.data ?? res.data;
   }
 
-  setToken(token: string) {
-    this.token = token
-    localStorage.setItem("authToken", token)
+  async register(data: RegisterPayload): Promise<void> {
+    await http.post("/user/register", data);
   }
 
-  getToken() {
-    return this.token
+  async logout() {
+    localStorage.removeItem("accessToken");
   }
 
-  clearToken() {
-    this.token = null
-    localStorage.removeItem("authToken")
-  }
-
-  private async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
-    const headers: HeadersInit = {
-      "Content-Type": "application/json",
-      ...options.headers,
-    }
-
-    if (this.token) {
-      headers["Authorization"] = `Bearer ${this.token}`
-    }
-
-    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-      ...options,
-      headers,
-    })
-
-    if (response.status === 401) {
-      this.clearToken()
-      window.location.href = "/login"
-    }
-
-    if (!response.ok) {
-      const error = await response.json()
-      throw new Error(error.message || "API request failed")
-    }
-
-    return response.json()
-  }
-
-  async login(data: LoginRequest): Promise<LoginResponse> {
-    const response = await this.request<LoginResponse>("/user/login", {
-      method: "POST",
-      body: JSON.stringify(data),
-    })
-    this.setToken(response.token)
-    return response
-  }
-
-  async register(data: RegisterRequest): Promise<User> {
-    return this.request<User>("/user/register", {
-      method: "POST",
-      body: JSON.stringify(data),
-    })
-  }
+  /* ---------- USER ---------- */
 
   async getProfile(): Promise<User> {
-    return this.request<User>("/user/profile")
+    const res = await http.get("/user/profile");
+    return res.data.data ?? res.data;
   }
 
-  async updateProfile(data: { email?: string; fullName?: string }): Promise<User> {
-    return this.request<User>("/user/profile", {
-      method: "PUT",
-      body: JSON.stringify(data),
-    })
+  async updateProfile(data: {
+    email?: string;
+    fullName?: string;
+  }): Promise<User> {
+    const res = await http.put("/user/profile", data);
+    return res.data.data ?? res.data;
   }
 
-  async updatePassword(oldPassword: string, newPassword: string): Promise<User> {
-    return this.request<User>("/user/profile/password", {
-      method: "PUT",
-      body: JSON.stringify({ oldPassword, newPassword }),
-    })
+  async updatePassword(
+    oldPassword: string,
+    newPassword: string
+  ): Promise<void> {
+    await http.put("/user/profile/password", {
+      oldPassword,
+      newPassword,
+    });
   }
+
+  /* ---------- ADMIN ---------- */
 
   async getUsers(): Promise<User[]> {
-    return this.request<User[]>("/")
+    const res = await http.get("/admin/users");
+    return res.data.data ?? res.data;
   }
 
-  async updateUserStatus(userId: string, status: "ACTIVE" | "INACTIVE"): Promise<User> {
-    return this.request<User>(`/admin/users/${userId}`, {
-      method: "PUT",
-      body: JSON.stringify({ status }),
-    })
-  }
-
-  async refreshToken(): Promise<string> {
-    const response = await this.request<{ token: string }>("/user/refresh")
-    this.setToken(response.token)
-    return response.token
+  async updateUserStatus(
+    userId: string,
+    status: "ACTIVE" | "INACTIVE"
+  ): Promise<User> {
+    const res = await http.put(`/admin/users/${userId}`, { status });
+    return res.data.data ?? res.data;
   }
 }
 
-export const authClient = new AuthClient()
+export const authClient = new AuthClient();
+
+```
+
+
+## File: lib\http.ts 
+
+```js
+import axios, { AxiosError } from "axios";
+
+export const http = axios.create({
+    baseURL: process.env.NEXT_PUBLIC_API_URL, // REQUIRED
+    withCredentials: true, // refreshToken cookie
+});
+
+/* =========================
+   Request interceptor
+========================= */
+http.interceptors.request.use((config) => {
+    if (typeof window !== "undefined") {
+        const token = localStorage.getItem("accessToken");
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+    }
+    return config;
+});
+
+/* =========================
+   Response interceptor
+   (auto refresh token)
+========================= */
+let isRefreshing = false;
+let queue: ((token: string) => void)[] = [];
+
+http.interceptors.response.use(
+    (res) => res,
+    async (error: AxiosError<any>) => {
+        const original = error.config as any;
+
+        if (error.response?.status === 401 && !original._retry) {
+            original._retry = true;
+
+            if (!isRefreshing) {
+                isRefreshing = true;
+                try {
+                    const refreshRes = await axios.get(
+                        `${process.env.NEXT_PUBLIC_API_URL}/user/refresh`,
+                        { withCredentials: true }
+                    );
+
+                    const newToken =
+                        refreshRes.headers.authorization?.split(" ")[1];
+
+                    if (!newToken) throw new Error("No refresh token");
+
+                    localStorage.setItem("accessToken", newToken);
+                    queue.forEach((cb) => cb(newToken));
+                    queue = [];
+                } catch {
+                    localStorage.removeItem("accessToken");
+                    window.location.href = "/login";
+                    return Promise.reject(error);
+                } finally {
+                    isRefreshing = false;
+                }
+            }
+
+            return new Promise((resolve) => {
+                queue.push((token: string) => {
+                    original.headers.Authorization = `Bearer ${token}`;
+                    resolve(http(original));
+                });
+            });
+        }
+
+        return Promise.reject(error);
+    }
+);
 
 ```
 
@@ -2042,6 +2082,7 @@ export default nextConfig;
     "@radix-ui/react-tooltip": "1.1.6",
     "@vercel/analytics": "1.3.1",
     "autoprefixer": "^10.4.20",
+    "axios": "^1.13.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "1.0.4",
@@ -2074,6 +2115,7 @@ export default nextConfig;
     "typescript": "^5"
   }
 }
+
 ```
 
 
