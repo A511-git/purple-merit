@@ -154,26 +154,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   ) => {
     setIsLoading(true);
     try {
-      await authClient.updatePassword(oldPassword, newPassword);
+      await authClient.updatePassword(oldPassword, newPassword)
 
       toast({
         title: "Success",
         description: "Password updated successfully",
-      });
+      })
     } catch (error) {
-      const { message } = normalizeApiError(
-        error,
-        "Failed to update password"
-      );
+      const { message } = normalizeApiError(error)
 
       toast({
         title: "Error",
         description: message,
         variant: "destructive",
-      });
-
-      throw error;
-    } finally {
+      })
+    }
+    finally {
       setIsLoading(false);
     }
   };
