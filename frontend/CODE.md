@@ -671,7 +671,7 @@ export function LoginForm() {
     const passwordError = validatePassword(formData.password)
 
     if (emailError) newErrors.email = emailError
-    if (passwordError) newErrors.password = "Password is required"
+    if (passwordError) newErrors.password = passwordError;
 
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
@@ -1371,148 +1371,203 @@ export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
 ## File: contexts\auth-context.tsx 
 
 ```js
-"use client"
+"use client";
 
-import { createContext, useContext, useState, useEffect, type ReactNode } from "react"
-import { authClient, type User } from "@/lib/auth-client"
-import { useToast } from "@/hooks/use-toast"
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  type ReactNode,
+} from "react";
+import { authClient, type User } from "@/lib/auth-client";
+import { useToast } from "@/hooks/use-toast";
+import { normalizeApiError } from "@/lib/api-error";
 
 interface AuthContextType {
-  user: User | null
-  isLoading: boolean
-  isAuthenticated: boolean
-  login: (email: string, password: string) => Promise<void>
-  register: (email: string, password: string, fullName: string) => Promise<void>
-  logout: () => void
-  updateProfile: (data: { email?: string; fullName?: string }) => Promise<void>
-  updatePassword: (oldPassword: string, newPassword: string) => Promise<void>
+  user: User | null;
+  isLoading: boolean;
+  isAuthenticated: boolean;
+  login: (email: string, password: string) => Promise<void>;
+  register: (email: string, password: string, fullName: string) => Promise<void>;
+  logout: () => void;
+  updateProfile: (data: { email?: string; fullName?: string }) => Promise<void>;
+  updatePassword: (oldPassword: string, newPassword: string) => Promise<void>;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined)
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
-  const { toast } = useToast()
+  const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const { toast } = useToast();
 
+  /* ---------- Init auth ---------- */
   useEffect(() => {
     const initAuth = async () => {
       try {
-        // If accessToken exists, interceptor will attach it
-        const profile = await authClient.getProfile()
-        setUser(profile)
+        const profile = await authClient.getProfile();
+        setUser(profile);
       } catch {
-        localStorage.removeItem("accessToken")
-        setUser(null)
+        localStorage.removeItem("accessToken");
+        setUser(null);
       } finally {
-        setIsLoading(false)
+        setIsLoading(false);
       }
-    }
+    };
 
-    initAuth()
-  }, [])
+    initAuth();
+  }, []);
 
-
+  /* ---------- Login ---------- */
   const login = async (email: string, password: string) => {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
-      const { user: userData } = await authClient.login({ email, password })
-      setUser(userData)
-      toast({ title: "Success", description: "Logged in successfully" })
+      const userData = await authClient.login({ email, password });
+      setUser(userData);
+
+      toast({
+        title: "Success",
+        description: "Logged in successfully",
+      });
     } catch (error) {
+      const { message } = normalizeApiError(error, "Login failed");
+
       toast({
         title: "Error",
-        description: error instanceof Error ? error.message : "Login failed",
+        description: message,
         variant: "destructive",
-      })
-      throw error
-    } finally {
-      setIsLoading(false)
-    }
-  }
+      });
 
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  /* ---------- Register ---------- */
   const register = async (email: string, password: string, fullName: string) => {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
-      await authClient.register({ email, password, fullName })
+      await authClient.register({ email, password, fullName });
+
       toast({
         title: "Success",
         description: "Account created successfully. Please log in.",
-      })
+      });
     } catch (error) {
+      const { message } = normalizeApiError(error, "Registration failed");
+
       toast({
         title: "Error",
-        description: error instanceof Error ? error.message : "Registration failed",
+        description: message,
         variant: "destructive",
-      })
-      throw error
-    } finally {
-      setIsLoading(false)
-    }
-  }
+      });
 
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  /* ---------- Logout ---------- */
   const logout = () => {
-    localStorage.removeItem("accessToken")
-    setUser(null)
-    toast({ title: "Success", description: "Logged out successfully" })
-  }
+    localStorage.removeItem("accessToken");
+    setUser(null);
 
+    toast({
+      title: "Success",
+      description: "Logged out successfully",
+    });
+  };
 
-  const updateProfile = async (data: { email?: string; fullName?: string }) => {
-    setIsLoading(true)
+  /* ---------- Update profile ---------- */
+  const updateProfile = async (data: {
+    email?: string;
+    fullName?: string;
+  }) => {
+    setIsLoading(true);
     try {
-      const updatedUser = await authClient.updateProfile(data)
-      setUser(updatedUser)
-      toast({ title: "Success", description: "Profile updated successfully" })
+      const updatedUser = await authClient.updateProfile(data);
+      setUser(updatedUser);
+
+      toast({
+        title: "Success",
+        description: "Profile updated successfully",
+      });
     } catch (error) {
+      const { message } = normalizeApiError(
+        error,
+        "Failed to update profile"
+      );
+
       toast({
         title: "Error",
-        description: error instanceof Error ? error.message : "Failed to update profile",
+        description: message,
         variant: "destructive",
-      })
-      throw error
-    } finally {
-      setIsLoading(false)
-    }
-  }
+      });
 
-  const updatePassword = async (oldPassword: string, newPassword: string) => {
-    setIsLoading(true)
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  /* ---------- Update password ---------- */
+  const updatePassword = async (
+    oldPassword: string,
+    newPassword: string
+  ) => {
+    setIsLoading(true);
     try {
-      await authClient.updatePassword(oldPassword, newPassword)
-      toast({ title: "Success", description: "Password updated successfully" })
+      await authClient.updatePassword(oldPassword, newPassword);
+
+      toast({
+        title: "Success",
+        description: "Password updated successfully",
+      });
     } catch (error) {
+      const { message } = normalizeApiError(
+        error,
+        "Failed to update password"
+      );
+
       toast({
         title: "Error",
-        description: error instanceof Error ? error.message : "Failed to update password",
+        description: message,
         variant: "destructive",
-      })
-      throw error
+      });
+
+      throw error;
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
-  const value: AuthContextType = {
-    user,
-    isLoading,
-    isAuthenticated: !!user,
-    login,
-    register,
-    logout,
-    updateProfile,
-    updatePassword,
-  }
-
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+  return (
+    <AuthContext.Provider
+      value={{
+        user,
+        isLoading,
+        isAuthenticated: !!user,
+        login,
+        register,
+        logout,
+        updateProfile,
+        updatePassword,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
 export function useAuth() {
-  const context = useContext(AuthContext)
-  if (context === undefined) {
-    throw new Error("useAuth must be used within AuthProvider")
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth must be used within AuthProvider");
   }
-  return context
+  return context;
 }
 
 ```
@@ -1580,7 +1635,7 @@ import * as React from 'react'
 import type { ToastActionElement, ToastProps } from '@/components/ui/toast'
 
 const TOAST_LIMIT = 1
-const TOAST_REMOVE_DELAY = 1000000
+const TOAST_REMOVE_DELAY = 5000
 
 type ToasterToast = ToastProps & {
   id: string
@@ -1607,21 +1662,21 @@ type ActionType = typeof actionTypes
 
 type Action =
   | {
-      type: ActionType['ADD_TOAST']
-      toast: ToasterToast
-    }
+    type: ActionType['ADD_TOAST']
+    toast: ToasterToast
+  }
   | {
-      type: ActionType['UPDATE_TOAST']
-      toast: Partial<ToasterToast>
-    }
+    type: ActionType['UPDATE_TOAST']
+    toast: Partial<ToasterToast>
+  }
   | {
-      type: ActionType['DISMISS_TOAST']
-      toastId?: ToasterToast['id']
-    }
+    type: ActionType['DISMISS_TOAST']
+    toastId?: ToasterToast['id']
+  }
   | {
-      type: ActionType['REMOVE_TOAST']
-      toastId?: ToasterToast['id']
-    }
+    type: ActionType['REMOVE_TOAST']
+    toastId?: ToasterToast['id']
+  }
 
 interface State {
   toasts: ToasterToast[]
@@ -1679,9 +1734,9 @@ export const reducer = (state: State, action: Action): State => {
         toasts: state.toasts.map((t) =>
           t.id === toastId || toastId === undefined
             ? {
-                ...t,
-                open: false,
-              }
+              ...t,
+              open: false,
+            }
             : t,
         ),
       }
@@ -1753,7 +1808,8 @@ function useToast() {
         listeners.splice(index, 1)
       }
     }
-  }, [state])
+  }, [])
+
 
   return {
     ...state,
@@ -1763,6 +1819,48 @@ function useToast() {
 }
 
 export { useToast, toast }
+
+```
+
+
+## File: lib\api-error.ts 
+
+```js
+import axios from "axios";
+
+export type NormalizedApiError = {
+    message: string;
+    fieldErrors?: Record<string, string[]>;
+};
+
+export function normalizeApiError(
+    error: unknown,
+    fallback = "Something went wrong"
+): NormalizedApiError {
+    if (!axios.isAxiosError(error)) {
+        return { message: fallback };
+    }
+
+    const backendError = error.response?.data?.error;
+
+    if (!backendError) {
+        return { message: fallback };
+    }
+
+    // Validation errors (your `stack`)
+    if (backendError.stack && typeof backendError.stack === "object") {
+        return {
+            message: "Please fix the highlighted errors",
+            fieldErrors: backendError.stack,
+        };
+    }
+
+    if (backendError.message) {
+        return { message: backendError.message };
+    }
+
+    return { message: fallback };
+}
 
 ```
 

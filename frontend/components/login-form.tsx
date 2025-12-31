@@ -30,7 +30,7 @@ export function LoginForm() {
     const passwordError = validatePassword(formData.password)
 
     if (emailError) newErrors.email = emailError
-    if (passwordError) newErrors.password = "Password is required"
+    if (passwordError) newErrors.password = passwordError;
 
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
