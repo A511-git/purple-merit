@@ -15,7 +15,7 @@ export const admin = () => {
         const {
             page,
             limit,
-            role,
+            role="USER",
             status
         } = req.query;
 

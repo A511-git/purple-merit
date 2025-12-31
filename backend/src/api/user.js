@@ -30,7 +30,7 @@ export const user = () => {
             secure: true,
             sameSite: "none",
             maxAge: 30 * 24 * 60 * 60 * 1000,
-            path: "/api/v1/user/refresh"
+            path: "/"
         });
 
         res.status(200).json(new ApiResponse(200, user, "Login successful"));

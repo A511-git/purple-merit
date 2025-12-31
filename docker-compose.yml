@@ -1,0 +1,42 @@
+services:
+  mongodb:
+    image: mongo:7
+    container_name: purple-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    restart: unless-stopped
+
+  backend:
+    build: ./backend
+    container_name: purple-backend
+    ports:
+      - "4000:4000"
+    environment:
+      ACCESS_TOKEN_SECRET: maybe_keep_something_secure
+      ACCESS_TOKEN_EXPIRY: 60m
+
+      REFRESH_TOKEN_SECRET: maybe_keep_something_secure
+      REFRESH_TOKEN_EXPIRY: 10D
+
+      PORT: 4000
+      DB_URI: mongodb://mongodb:27017/purple_merit
+      FRONTEND_URL: http://localhost:3000
+    depends_on:
+      - mongodb
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    container_name: purple-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: http://backend:4000/api/v1
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  mongo_data:
